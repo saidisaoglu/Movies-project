@@ -1,0 +1,39 @@
+header {
+  nav {
+    padding: 10px 0;
+    ul {
+      display: flex;
+      list-style: none;
+      justify-content: space-around;
+      align-items: center;
+      li {
+        .AddButton {
+          padding: 5px 15px;
+          border-radius: 20px;
+          border: 1px solid gray;
+          color: white;
+          background-color: #222731;
+          &:hover {
+            transition: 300ms ease-in;
+            background-color: rgb(255, 249, 249);
+            color: #222731;
+          }
+        }
+        img {
+          padding-top: 5px;
+        }
+        input {
+          width: 25vw;
+          padding: 10px 10px;
+          border-radius: 150px;
+          border: none;
+          opacity: 0.5;
+          transition: 400ms;
+          &:focus {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}

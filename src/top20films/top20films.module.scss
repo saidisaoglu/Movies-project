@@ -1,0 +1,34 @@
+.filmList {
+  overflow: hidden; /* Overflow içeriğini gizle */
+  background-color: #282d39;
+
+  .filmContainer {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scrollLeft 45s linear infinite; /* Animasyon özellikleri */
+    animation-play-state: running; /* Başlangıçta animasyon durumu */
+    padding: 20px 0;
+  }
+
+  .film {
+    display: inline-block;
+    vertical-align: top;
+    width: 200px;
+    margin-right: 20px;
+    color: white;
+  }
+
+  &:hover .filmContainer {
+    animation-play-state: paused; /* Üzerine gelindiğinde animasyonu duraklat */
+  }
+}
+@keyframes scrollLeft {
+    from {
+      transform: translateX(0); /* Başlangıç pozisyonundan başla */
+    }
+    to {
+      transform: translateX(
+        -100%
+      ); /* Konteyner genişliğinin %100'ü kadar sola git */
+    }
+  }

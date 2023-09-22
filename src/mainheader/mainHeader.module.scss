@@ -1,0 +1,25 @@
+.navBottomCategori {
+  background-color: #171a21;
+  padding: 15px;
+  // @include responsive992 {
+  //   display: none;
+  // }
+  ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: auto 0;
+
+    li {
+      padding-right: 25px;
+      a {
+        text-decoration: none;
+        color: white;
+        transition: 300ms;
+        &:hover {
+          color: gold;
+        }
+      }
+    }
+  }
+}
