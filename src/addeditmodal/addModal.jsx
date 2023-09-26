@@ -53,7 +53,7 @@ function MyVerticallyCenteredModal({ setModalShow, fetchMovies, ...props }) {
       >
         <Modal.Header closeButton className={addEditModalscss.addMovieModal}>
           <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
+            Add Movie
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className={addEditModalscss.addMovieModal}>
@@ -71,6 +71,7 @@ function MyVerticallyCenteredModal({ setModalShow, fetchMovies, ...props }) {
                   type="text"
                   placeholder="imageUrl"
                   id="imageUrl"
+                  className="form-control"
                 />
               </li>
               <li>
@@ -85,6 +86,7 @@ function MyVerticallyCenteredModal({ setModalShow, fetchMovies, ...props }) {
                   type="text"
                   placeholder="Title"
                   id="title"
+                  className="form-control"
                 />
               </li>
               <li>
@@ -101,6 +103,7 @@ function MyVerticallyCenteredModal({ setModalShow, fetchMovies, ...props }) {
                   }
                   type="text"
                   placeholder="Description"
+                  className="form-control"
                   id="description"
                 />
               </li>
@@ -116,6 +119,7 @@ function MyVerticallyCenteredModal({ setModalShow, fetchMovies, ...props }) {
                   type="text"
                   placeholder="year"
                   id="year"
+                  className="form-control"
                 />
               </li>
               <li>
@@ -140,7 +144,20 @@ function MyVerticallyCenteredModal({ setModalShow, fetchMovies, ...props }) {
           </form>
         </Modal.Body>
         <Modal.Footer className={addEditModalscss.addMovieModal}>
-          <Button onClick={props.onHide}>Close</Button>
+          <Button
+            onClick={() => {
+              props.onHide();
+              sethandleMovie({
+                imageUrl: "",
+                title: "",
+                description: "",
+                year: "",
+                categori: "",
+              });
+            }}
+          >
+            Close
+          </Button>
           <Button onClick={addMovie} disabled={isSaveButtonDisabled}>
             Add Movie
           </Button>

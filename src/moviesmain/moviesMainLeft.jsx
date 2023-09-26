@@ -8,6 +8,7 @@ export function MoviesMainLeftPart({ movies, loading, fetchMovies }) {
   const [movieId, setMovieId] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [buyMovie, setBuyMovie] = useState();
 
   const handleDelete = async () => {
     try {
@@ -68,6 +69,12 @@ export function MoviesMainLeftPart({ movies, loading, fetchMovies }) {
                   onClick={() => handleDeleteId(movie.id)}
                 >
                   Delete
+                </button>
+                <button
+                  onClick={() => handleDeleteId(movie.id)}
+                  className={moviesmain.movieButton}
+                >
+                  Buy
                 </button>
               </div>
             </div>

@@ -9,12 +9,12 @@ function PagenationMain({ currentPage, setCurrentPage, pageCount }) {
             key={page}
             active={page === currentPage}
             onClick={() => setCurrentPage(page)}
+            className={Pagenationscss.pagenationItems}
           >
             {page}
           </Pagination.Item>
         ))}
       </Pagination>
-  
     </>
   );
 }

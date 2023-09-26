@@ -1,4 +1,12 @@
 .addMovieModal {
   background-color: #222731;
   color: white;
+  form {
+    ul {
+      list-style: none;
+      li {
+        padding: 7px 0;
+      }
+    }
+  }
 }

@@ -1,3 +1,7 @@
 .pagenation {
-  background-color: red;
+  display: flex;
+  justify-content: center;
+}
+.pagenationItems {
+  color: gray;
 }
