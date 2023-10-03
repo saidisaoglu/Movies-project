@@ -1,21 +1,27 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import moviesmain from "./moviesmain.module.scss";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import EditModal from "../addeditmodal/editModal";
+import { CountContext } from "../useContext/stateProvider";
 
-export function MoviesMainLeftPart({ movies, loading, fetchMovies }) {
-  const [movieId, setMovieId] = useState(0);
-  const [showDelete, setShowDelete] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
-  const [buyMovie, setBuyMovie] = useState();
-
+export function MoviesMainLeftPart() {
+  const {
+    movies,
+    loading,
+    fetchMovies,
+    showDelete,
+    movieId,
+    setShowDelete,
+    setMovieId,
+    modalShow,
+    setModalShow,
+  } = useContext(CountContext);
   const handleDelete = async () => {
     try {
       await fetch(`http://localhost:3000/movies/${movieId}`, {
         method: "DELETE",
       });
-
       fetchMovies();
     } catch (error) {
       console.log(error);
@@ -28,10 +34,13 @@ export function MoviesMainLeftPart({ movies, loading, fetchMovies }) {
     setMovieId(id);
   };
   const handleEditId = (id) => {
-    setShowEdit(true);
+    setModalShow(true);
     setMovieId(id);
   };
 
+  const handleBuyMovieId = (id) => {
+    setMovieId(id);
+  };
   if (loading) {
     return (
       <p>
@@ -71,7 +80,7 @@ export function MoviesMainLeftPart({ movies, loading, fetchMovies }) {
                   Delete
                 </button>
                 <button
-                  onClick={() => handleDeleteId(movie.id)}
+                  onClick={() => handleBuyMovieId(movie.id)}
                   className={moviesmain.movieButton}
                 >
                   Buy
@@ -94,13 +103,7 @@ export function MoviesMainLeftPart({ movies, loading, fetchMovies }) {
             </Button>
           </Modal.Footer>
         </Modal>
-        <EditModal
-          show={showEdit}
-          setShowEdit={setShowEdit}
-          movieId={movieId}
-          onHide={() => setShowEdit(false)}
-          fetchMovies={fetchMovies}
-        />
+        <EditModal show={modalShow} onHide={() => setModalShow(false)} />
       </>
     );
   }

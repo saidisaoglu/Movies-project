@@ -1,6 +1,11 @@
 import Pagination from "react-bootstrap/Pagination";
 import Pagenationscss from "./pagenation.module.scss";
-function PagenationMain({ currentPage, setCurrentPage, pageCount }) {
+import { CountContext } from "../useContext/stateProvider";
+
+import { useContext } from "react";
+
+function PagenationMain() {
+  const { currentPage, setCurrentPage, pageCount } = useContext(CountContext);
   return (
     <>
       <Pagination className={Pagenationscss.pagenation}>

@@ -1,22 +1,21 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import navbarScss from "./navbar.module.scss";
-import Example from "../addeditmodal/addModal";
 import Button from "react-bootstrap/Button";
-import { ModalFooter } from "react-bootstrap";
-import MyVerticallyCenteredModal from "../addeditmodal/addModal";
-import { MoviesMainLeftPart } from "../moviesmain/moviesMainLeft";
+import { CountContext } from "../useContext/stateProvider";
+import EditModal from "../addeditmodal/editModal";
 
-export function Navbar({
-  setSearchQuery,
-  searchQuery,
-  modalShow,
-  setModalShow,
-  fetchMovies,
-}) {
+export function Navbar() {
   const handleChange = (event) => {
     const { value } = event.target;
     setSearchQuery(value);
   };
+  const {
+    setSearchQuery,
+    searchQuery,
+    setModalShow,
+    modalShow,
+    sethandleMovie,
+  } = useContext(CountContext);
 
   return (
     <header>
@@ -38,17 +37,23 @@ export function Navbar({
               <Button
                 className={navbarScss.AddButton}
                 variant="primary"
-                onClick={() => setModalShow(true)}
+                onClick={() => {
+                  setModalShow(true);
+                  sethandleMovie({
+                    imageUrl: "",
+                    title: "",
+                    description: "",
+                    year: "",
+                    categori: "",
+                  });
+                }}
               >
                 Add Movie
               </Button>
-
-              <MyVerticallyCenteredModal
-                show={modalShow}
-                setModalShow={setModalShow}
-                onHide={() => setModalShow(false)}
-                fetchMovies={fetchMovies}
-              />
+              <Button className={navbarScss.AddButton} variant="primary">
+                Show buying movies
+              </Button>
+              <EditModal show={modalShow} onHide={() => setModalShow(false)} />
             </>
           </li>
         </ul>

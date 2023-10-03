@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import addEditModalscss from "./addEditModal.module.scss";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { CountContext } from "../useContext/stateProvider";
 
-function EditModal({ movieId, onHide, show, setShowEdit, fetchMovies }) {
-  const [handleMovie, sethandleMovie] = useState({
-    imageUrl: "",
-    title: "",
-    description: "",
-    year: "",
-    categori: "",
-  });
+function EditModal({ onHide, show, ...props }) {
+  const {
+    movieId,
+    setModalShow,
+    editMovie,
+    handleMovie,
+    sethandleMovie,
+    addMovie,
+    setMovieId,
+  } = useContext(CountContext);
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
         const response = await fetch(`http://localhost:3000/movies/${movieId}`);
         const data = await response.json();
-
         sethandleMovie(data);
       } catch (error) {
         console.log(error);
@@ -25,21 +27,15 @@ function EditModal({ movieId, onHide, show, setShowEdit, fetchMovies }) {
     };
     fetchMovie();
   }, [movieId]);
-  const editMovie = async (e) => {
-    try {
-      await fetch(`http://localhost:3000/movies/${movieId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(handleMovie),
-      });
-      fetchMovies();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setShowEdit(false);
+  const handleSubmit = () => {
+    if (movieId) {
+      editMovie();
+    } else {
+      addMovie();
     }
+    setMovieId("");
+
+    setModalShow(false);
   };
 
   const isSaveButtonDisabled =
@@ -51,6 +47,7 @@ function EditModal({ movieId, onHide, show, setShowEdit, fetchMovies }) {
   return (
     <>
       <Modal
+        {...props}
         onHide={onHide}
         show={show}
         size="lg"
@@ -97,6 +94,7 @@ function EditModal({ movieId, onHide, show, setShowEdit, fetchMovies }) {
                 <label htmlFor="description">Description</label>
                 <br />
                 <input
+                  maxLength="220"
                   name="description"
                   defaultValue={handleMovie.description}
                   onChange={(e) =>
@@ -146,8 +144,25 @@ function EditModal({ movieId, onHide, show, setShowEdit, fetchMovies }) {
           </form>
         </Modal.Body>
         <Modal.Footer className={addEditModalscss.addMovieModal}>
-          <Button onClick={onHide}>Close</Button>
-          <Button disabled={isSaveButtonDisabled} onClick={editMovie}>
+          <Button
+            onClick={() => {
+              setModalShow(false);
+              sethandleMovie({
+                imageUrl: "",
+                title: "",
+                description: "",
+                year: "",
+                categori: "",
+              });
+              setMovieId("");
+            }}
+          >
+            Close
+          </Button>
+          <Button
+            disabled={isSaveButtonDisabled}
+            onClick={() => handleSubmit()}
+          >
             Save Movie
           </Button>
         </Modal.Footer>

@@ -29,7 +29,9 @@
 
 .movieDescription {
   margin-top: 10px;
-  font-size: 0.8rem;
+  padding-bottom: 8px;
+  overflow: visible;
+  font-size: 0.9rem;
   display: none;
 }
 
@@ -230,9 +232,9 @@
           margin: 2px;
           transition: 250ms ease-in-out;
           cursor: pointer;
-            @include responsive992 {
-              width: 100%;
-            }
+          @include responsive992 {
+            width: 100%;
+          }
           &:hover {
             color: rgb(179, 152, 3);
             transform: scale(102%);
