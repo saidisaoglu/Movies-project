@@ -18,7 +18,6 @@ export default function CountProvider({ children }) {
     year: "",
     categori: "",
   });
-
   const [buyMovies, SetBuyMovies] = useState();
   async function fetchMovies() {
     try {
@@ -100,7 +99,7 @@ export default function CountProvider({ children }) {
         setPageCount,
         movieId,
         setMovieId,
-        showDelete,
+        showDelete, 
         setShowDelete,
         handleMovie,
         sethandleMovie,

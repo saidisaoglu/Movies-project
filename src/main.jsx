@@ -6,6 +6,7 @@ import App from "./App.jsx";
 import CountProvider from "./useContext/stateProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+  
   <React.StrictMode>
     <CountProvider>
       <App />
