@@ -4,42 +4,46 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import EditModal from "../addeditmodal/editModal";
 import { CountContext } from "../useContext/stateProvider";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setShowDelete,setMovieId,setModalShow, } from "../redux/slices/slice";
+import { fetchMovies } from "../redux/slices/getMoviesSlices";
 export function MoviesMainLeftPart() {
   const {
-    movies,
-    loading,
-    fetchMovies,
-    showDelete,
-    movieId,
-    setShowDelete,
-    setMovieId,
-    modalShow,
-    setModalShow,
+    // movies,
+    // loading,
+    // fetchMovies,
+    
   } = useContext(CountContext);
+  const movies = useSelector((state)=>state.movies.movies)
+  const loading = useSelector((state)=>state.movies.loading )
+
+  const showDelete = useSelector((state)=>state.movies.showDelete)
+  const dispatch = useDispatch()
+  const movieId = useSelector((state)=>state.movies.movieId)
+  const modalShow = useSelector((state)=>state.movies.modalShow)
   const handleDelete = async () => {
     try {
       await fetch(`http://localhost:3000/movies/${movieId}`, {
         method: "DELETE",
       });
-      fetchMovies();
+      dispatch(fetchMovies({searchQuery:"", currentPage:0}));
     } catch (error) {
       console.log(error);
     } finally {
-      setShowDelete(false);
+      dispatch(setShowDelete(false));
     }
   };
   const handleDeleteId = (id) => {
-    setShowDelete(true);
-    setMovieId(id);
+    dispatch(setShowDelete(true));
+    dispatch(setMovieId(id));
   };
   const handleEditId = (id) => {
-    setModalShow(true);
-    setMovieId(id);
+    dispatch(setModalShow(true));
+    dispatch(setMovieId(id));
   };
-
+ 
   const handleBuyMovieId = (id) => {
-    setMovieId(id);
+    dispatch(setMovieId(id));
   };
   if (loading) {
     return (
@@ -89,13 +93,13 @@ export function MoviesMainLeftPart() {
             </div>
           ))}
         </div>
-        <Modal show={showDelete} onHide={() => setShowDelete(false)}>
+        <Modal show={showDelete} onHide={() => dispatch(setShowDelete(false))}>
           <Modal.Header closeButton>
             <Modal.Title>Movie Delete?</Modal.Title>
           </Modal.Header>
           <Modal.Body>Are you sure delete?</Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowDelete(false)}>
+            <Button variant="secondary" onClick={() => dispatch(setShowDelete(false))}>
               Close
             </Button>
             <Button variant="primary" onClick={handleDelete}>
@@ -103,7 +107,7 @@ export function MoviesMainLeftPart() {
             </Button>
           </Modal.Footer>
         </Modal>
-        <EditModal show={modalShow} onHide={() => setModalShow(false)} />
+        <EditModal show={modalShow} onHide={() => dispatch(setModalShow(false))} />
       </>
     );
   }

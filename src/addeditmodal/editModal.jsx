@@ -1,41 +1,38 @@
-import { useContext, useEffect, useState } from "react";
+import {  useEffect } from "react";
 import addEditModalscss from "./addEditModal.module.scss";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { CountContext } from "../useContext/stateProvider";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setModalShow, setMovieId, sethandleMovie } from "../redux/slices/slice";
+import { addMovie } from "../redux/slices/getMoviesSlices";
 function EditModal({ onHide, show, ...props }) {
-  const {
-    movieId,
-    setModalShow,
-    editMovie,
-    handleMovie,
-    sethandleMovie,
-    addMovie,
-    setMovieId,
-  } = useContext(CountContext);
+ 
+  const movieId =useSelector((state)=>state.movies.movieId) 
+  const handleMovie =useSelector((state)=>state.movies.handleMovie) 
 
+  const dispatch = useDispatch()
   useEffect(() => {
     const fetchMovie = async () => {
       try {
         const response = await fetch(`http://localhost:3000/movies/${movieId}`);
         const data = await response.json();
-        sethandleMovie(data);
+        dispatch(sethandleMovie(data));
+        return data
       } catch (error) {
         console.log(error);
       }
     };
-    fetchMovie();
   }, [movieId]);
-  const handleSubmit = () => {
+  const handleSubmit = (movieId) => {
     if (movieId) {
-      editMovie();
+      dispatch(editMovie(movieId));
+      console.log(movieId);
     } else {
-      addMovie();
+      dispatch(addMovie(handleMovie));
     }
-    setMovieId("");
+    dispatch(setMovieId(""));
 
-    setModalShow(false);
+    dispatch(setModalShow(false));
   };
 
   const isSaveButtonDisabled =
@@ -69,7 +66,7 @@ function EditModal({ onHide, show, ...props }) {
                   name="imageUrl"
                   defaultValue={handleMovie.imageUrl}
                   onChange={(e) =>
-                    sethandleMovie({ ...handleMovie, imageUrl: e.target.value })
+                    dispatch(sethandleMovie({ ...handleMovie, imageUrl: e.target.value }))
                   }
                   type="text"
                   placeholder="imageUrl"
@@ -83,7 +80,7 @@ function EditModal({ onHide, show, ...props }) {
                   name="title"
                   defaultValue={handleMovie.title}
                   onChange={(e) =>
-                    sethandleMovie({ ...handleMovie, title: e.target.value })
+                    dispatch(sethandleMovie({ ...handleMovie, title: e.target.value }))
                   }
                   type="text"
                   placeholder="Title"
@@ -98,10 +95,10 @@ function EditModal({ onHide, show, ...props }) {
                   name="description"
                   defaultValue={handleMovie.description}
                   onChange={(e) =>
-                    sethandleMovie({
+                    dispatch(sethandleMovie({
                       ...handleMovie,
                       description: e.target.value,
-                    })
+                    }))
                   }
                   type="text"
                   placeholder="Description"
@@ -115,7 +112,7 @@ function EditModal({ onHide, show, ...props }) {
                   name="year"
                   defaultValue={handleMovie.year}
                   onChange={(e) =>
-                    sethandleMovie({ ...handleMovie, year: e.target.value })
+                    dispatch(sethandleMovie({ ...handleMovie, year: e.target.value }))
                   }
                   type="text"
                   placeholder="year"
@@ -128,7 +125,7 @@ function EditModal({ onHide, show, ...props }) {
                   name="categori"
                   defaultValue={handleMovie.categori}
                   onChange={(e) =>
-                    sethandleMovie({ ...handleMovie, categori: e.target.value })
+                    dispatch(sethandleMovie({ ...handleMovie, categori: e.target.value }))
                   }
                   id="categori"
                   className="form-select"
@@ -146,15 +143,15 @@ function EditModal({ onHide, show, ...props }) {
         <Modal.Footer className={addEditModalscss.addMovieModal}>
           <Button
             onClick={() => {
-              setModalShow(false);
-              sethandleMovie({
+              dispatch(setModalShow(false));
+              dispatch(sethandleMovie({
                 imageUrl: "",
                 title: "",
                 description: "",
                 year: "",
                 categori: "",
-              });
-              setMovieId("");
+              }));
+              dispatch(setMovieId(""));
             }}
           >
             Close

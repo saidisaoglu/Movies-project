@@ -4,7 +4,7 @@ import { MainHeader } from "./mainheader/mainheader";
 import { TopFilms } from "./top20films/topfilms";
 import { MoviesMain } from "./moviesmain/moviesMain";
 import { Provider } from "react-redux";
-import store from "./store/store";
+import store from "./redux/store";
 function App() {
   return (
     <Provider store={store}>

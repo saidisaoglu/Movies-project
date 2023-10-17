@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-
+import { fetchMovies } from "../redux/slices/getMoviesSlices";
 export const CountContext = createContext();
 
 export default function CountProvider({ children }) {
@@ -19,68 +19,68 @@ export default function CountProvider({ children }) {
     categori: "",
   });
   const [buyMovies, SetBuyMovies] = useState();
-  async function fetchMovies() {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `http://localhost:3000/movies?q=${searchQuery}&_page=${currentPage}&_limit=10`
-      );
-      const data = await response.json();
-      if (data?.length) {
-        setMovies(data);
-      }
-      const calculatedPageCount = Math.ceil(
-        response.headers.get("X-Total-Count") / 10
-      );
-      setPageCount(calculatedPageCount);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-  useEffect(() => {
-    fetchMovies();
-  }, [searchQuery, currentPage]);
-  const addMovie = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/movies", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(handleMovie),
-      });
-      fetchMovies();
-      if (response.ok) {
-        sethandleMovie({
-          imageUrl: "",
-          title: "",
-          description: "",
-          year: "",
-          categori: "",
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setModalShow(false);
-      setMovieId("");
-    }
-  };
+  // async function fetchMovies() {
+  //   try {
+  //     setLoading(true);
+  //     const response = await fetch(
+  //       `http://localhost:3000/movies?q=${searchQuery}&_page=${currentPage}&_limit=10`
+  //     );
+  //     const data = await response.json();
+  //     if (data?.length) {
+  //       setMovies(data);
+  //     }
+  //     const calculatedPageCount = Math.ceil(
+  //       response.headers.get("X-Total-Count") / 10
+  //     );
+  //     setPageCount(calculatedPageCount);
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
+  // useEffect(() => {
+  //   fetchMovies();
+  // }, [searchQuery, currentPage]);
+  // const addMovie = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:3000/movies", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(handleMovie),
+  //     });
+  //     fetchMovies();
+  //     if (response.ok) {
+  //       sethandleMovie({
+  //         imageUrl: "",
+  //         title: "",
+  //         description: "",
+  //         year: "",
+  //         categori: "",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //     setModalShow(false);
+  //     setMovieId("");
+  //   }
+  // };
   const editMovie = async (e) => {
-    try {
-      await fetch(`http://localhost:3000/movies/${movieId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(handleMovie),
-      });
-      fetchMovies();
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   await fetch(`http://localhost:3000/movies/${movieId}`, {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(handleMovie),
+    //   });
+    //   fetchMovies();
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
   return (
     <CountContext.Provider
@@ -101,9 +101,9 @@ export default function CountProvider({ children }) {
         setMovieId,
         showDelete, 
         setShowDelete,
-        handleMovie,
-        sethandleMovie,
-        addMovie,
+        // handleMovie,
+        // sethandleMovie,
+        // addMovie,
         fetchMovies,
         editMovie,
       }}

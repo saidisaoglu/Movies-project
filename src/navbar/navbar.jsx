@@ -1,21 +1,20 @@
-import { useContext, useState } from "react";
+
 import navbarScss from "./navbar.module.scss";
 import Button from "react-bootstrap/Button";
-import { CountContext } from "../useContext/stateProvider";
 import EditModal from "../addeditmodal/editModal";
+import { useDispatch, useSelector } from "react-redux";
+import  { setModalShow, setSearchQuery,sethandleMovie } from "../redux/slices/slice";
 
 export function Navbar() {
   const handleChange = (event) => {
     const { value } = event.target;
-    setSearchQuery(value);
+    dispatch(setSearchQuery(value));
   };
-  const {
-    setSearchQuery,
-    searchQuery,
-    setModalShow,
-    modalShow,
-    sethandleMovie,
-  } = useContext(CountContext);
+
+
+  const searchQuery= useSelector((state)=>state.movies.searchQuery)
+  const dispatch=useDispatch()
+  const modalShow = useSelector((state)=>state.movies.modalShow)
 
   return (
     <header>
@@ -38,14 +37,14 @@ export function Navbar() {
                 className={navbarScss.AddButton}
                 variant="primary"
                 onClick={() => {
-                  setModalShow(true);
-                  sethandleMovie({
+                  dispatch(setModalShow(true));
+                  dispatch(sethandleMovie({
                     imageUrl: "",
                     title: "",
                     description: "",
                     year: "",
                     categori: "",
-                  });
+                  }));
                 }}
               >
                 Add Movie
@@ -53,7 +52,7 @@ export function Navbar() {
               <Button className={navbarScss.AddButton} variant="primary">
                 Show buying movies
               </Button>
-              <EditModal show={modalShow} onHide={() => setModalShow(false)} />
+              <EditModal show={modalShow} onHide={() => dispatch(setModalShow(false))} />
             </>
           </li>
         </ul>
